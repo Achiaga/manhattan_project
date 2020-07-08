@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -13,16 +13,37 @@ const Title = styled.h1`
 `;
 
 const InputBox = styled.div`
-	text-align: center;
 	color: palevioletred;
+	display: grid;
+	grid-template-columns: auto auto auto;
+	text-align: center;
+`;
+
+const TitleWrapper = styled.div`
+	color: palevioletred;
+	text-align: center;
 `;
 
 const InputWrapper = styled.div`
-	text-align: center;
 	color: palevioletred;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	text-align: center;
+`;
+
+const InputData = styled.input`
+	text-align: center;
+	transition: 0.25s border ease-in-out;
+	border-radius: 0 !important;
+	outline: none !important;
+	box-shadow: none !important;
+	background: transparent;
+	color: black;
+	border: 0;
+	border-bottom: 2px solid palevioletred;
+	font-size: 20px;
+	width: 4em;
+	&:focus {
+		border-bottom-color: black;
+	}
 `;
 
 const TitleInput = styled.h2`
@@ -30,21 +51,44 @@ const TitleInput = styled.h2`
 `;
 
 export const Casino = () => {
+	const [inputValue, setInputValue] = useState({});
+
+	const handleInput = (e) => {
+		e.preventDefault();
+		const { value, name } = e.target;
+		setInputValue({ name: value });
+	};
+
 	return (
 		<HomeWrapper>
 			<Title>Casino</Title>
 			<InputBox>
 				<InputWrapper>
 					<TitleInput>Probablity</TitleInput>
-					<input type='number' placeholder='0.51'></input>
+					<InputData
+						type='number'
+						placeholder='0.51'
+						name='Probablity'
+						value={inputValue.probablityValue}
+						onChange={(e) => handleInput(e)}></InputData>
 				</InputWrapper>
 				<InputWrapper>
 					<TitleInput>Initial Cash</TitleInput>
-					<input type='number' placeholder='10000$'></input>
+					<InputData
+						type='number'
+						placeholder='10000$'
+						name='Cash'
+						value={inputValue.cashValue}
+						onChange={(e) => handleInput(e)}></InputData>
 				</InputWrapper>
 				<InputWrapper>
 					<TitleInput>Bet</TitleInput>
-					<input type='number' placeholder='100$'></input>
+					<InputData
+						type='number'
+						placeholder='100$'
+						name='Bet'
+						value={inputValue.betValue}
+						onChange={(e) => handleInput(e)}></InputData>
 				</InputWrapper>
 			</InputBox>
 		</HomeWrapper>
