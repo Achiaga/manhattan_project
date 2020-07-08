@@ -66,14 +66,20 @@ const Button = styled.button`
 	}
 `;
 
-const callAPI = async () => {
+const callAPI = async (inputValue) => {
 	console.log('callAPI');
-	fetch('/api/montecarlo', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
+	try {
+		const response = await fetch('/api/montecarlo', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ ...inputValue }),
+		});
+		return await response.json();
+	} catch (err) {
+		throw err;
+	}
 };
 
 export const Casino = () => {
@@ -82,7 +88,12 @@ export const Casino = () => {
 	const handleInput = (e) => {
 		e.preventDefault();
 		const { value, name } = e.target;
-		setInputValue({ name: value });
+		setInputValue({ ...inputValue, [name]: +value });
+		console.log(inputValue);
+	};
+	const handleAPIcall = async () => {
+		const value = await callAPI(inputValue);
+		setInputValue(value);
 	};
 
 	return (
@@ -94,8 +105,8 @@ export const Casino = () => {
 					<InputData
 						type='number'
 						placeholder='0.51'
-						name='Probablity'
-						value={inputValue.probablityValue}
+						name='probablity'
+						value={inputValue.probablity || ''}
 						onChange={handleInput}></InputData>
 				</InputWrapper>
 				<InputWrapper>
@@ -103,21 +114,21 @@ export const Casino = () => {
 					<InputData
 						type='number'
 						placeholder='10000$'
-						name='Cash'
-						value={inputValue.cashValue}
-						onChange={(e) => handleInput(e)}></InputData>
+						name='cash'
+						value={inputValue.cash || ''}
+						onChange={handleInput}></InputData>
 				</InputWrapper>
 				<InputWrapper>
 					<TitleInput>Bet</TitleInput>
 					<InputData
 						type='number'
 						placeholder='100$'
-						name='Bet'
-						value={inputValue.betValue}
-						onChange={(e) => handleInput(e)}></InputData>
+						name='bet'
+						value={inputValue.bet || ''}
+						onChange={handleInput}></InputData>
 				</InputWrapper>
 			</InputBox>
-			<Button onClick={() => callAPI()}>Calculate</Button>
+			<Button onClick={handleAPIcall}>Calculate</Button>
 		</HomeWrapper>
 	);
 };
