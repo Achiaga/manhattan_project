@@ -68,7 +68,7 @@ const Button = styled.button`
 
 const callAPI = async () => {
 	console.log('callAPI');
-	fetch('/api/MonteCarlo', {
+	fetch('/api/montecarlo', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
