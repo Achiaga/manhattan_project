@@ -15,7 +15,8 @@ const Title = styled.h1`
 const InputBox = styled.div`
 	color: palevioletred;
 	display: grid;
-	grid-template-columns: auto auto auto;
+	grid-template-columns: 15em 15em 15em;
+	justify-content: space-evenly;
 	text-align: center;
 `;
 
@@ -50,6 +51,31 @@ const TitleInput = styled.h2`
 	padding: 1em;
 `;
 
+const Button = styled.button`
+	padding: 0.4em;
+	border-color: palevioletred;
+	background: none;
+	border-radius: 5px;
+	font-size: 25px;
+	display: flex;
+	margin: auto;
+	margin-top: 2em;
+	&:hover {
+		cursor: pointer;
+		background: #db709369;
+	}
+`;
+
+const callAPI = async () => {
+	console.log('callAPI');
+	fetch('/api/MonteCarlo', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+};
+
 export const Casino = () => {
 	const [inputValue, setInputValue] = useState({});
 
@@ -70,7 +96,7 @@ export const Casino = () => {
 						placeholder='0.51'
 						name='Probablity'
 						value={inputValue.probablityValue}
-						onChange={(e) => handleInput(e)}></InputData>
+						onChange={handleInput}></InputData>
 				</InputWrapper>
 				<InputWrapper>
 					<TitleInput>Initial Cash</TitleInput>
@@ -91,6 +117,7 @@ export const Casino = () => {
 						onChange={(e) => handleInput(e)}></InputData>
 				</InputWrapper>
 			</InputBox>
+			<Button onClick={() => callAPI()}>Calculate</Button>
 		</HomeWrapper>
 	);
 };
